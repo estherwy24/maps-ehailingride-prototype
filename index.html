@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prototype — Google Maps x e-hailing: tourist ride booking</title>
+<meta name="description" content="Clickable prototype: booking an e-hailing ride inside Google Maps, targeted at newly arrived travellers.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3/dist/tabler-icons.min.css">
+<style>
+:root{
+--surface-0:#faf9f7;--surface-1:#f1efe8;--surface-2:#ffffff;
+--text-primary:#1f1f1e;--text-secondary:#5f5e5a;--text-muted:#888780;
+--border:rgba(0,0,0,.12);--border-strong:rgba(0,0,0,.24);
+--bg-accent:#e6f1fb;--text-accent:#185fa5;--accent:#185fa5;
+--radius:8px;--font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root{
+--surface-0:#131313;--surface-1:#1e1e1d;--surface-2:#292928;
+--text-primary:#f2f1ee;--text-secondary:#b4b2a9;--text-muted:#888780;
+--border:rgba(255,255,255,.14);--border-strong:rgba(255,255,255,.28);
+--bg-accent:#0c447c;--text-accent:#b5d4f4;--accent:#378add;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface-0);color:var(--text-primary);font-family:var(--font-sans);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:700px;margin:0 auto;padding:36px 20px 64px}
+h1{font-size:20px;font-weight:500;margin:0 0 4px}
+.sub{font-size:13px;color:var(--text-secondary);margin:0 0 28px}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.stitle{font-size:14px;font-weight:500}
+.lbl{font-size:12px;color:var(--text-secondary)}
+.stage{background:var(--surface-1);border-radius:12px;padding:18px 0}
+.phone{position:relative;width:336px;height:600px;border:1px solid var(--border-strong);border-radius:26px;background:var(--surface-2);overflow:hidden;margin:0 auto}
+.map{position:absolute;inset:0;background:var(--surface-1)}
+.rd{position:absolute;background:var(--border);border-radius:2px}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--surface-2);border-top:1px solid var(--border);border-radius:16px 16px 0 0;padding:14px 16px 18px}
+.cta{display:block;width:100%;height:38px;border-radius:var(--radius);border:none;background:var(--accent);color:#fff;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit}
+.cta.ghost{background:transparent;border:1px solid var(--border-strong);color:var(--text-primary)}
+.chip{display:inline-block;font-size:11px;padding:3px 8px;border-radius:var(--radius);background:#e6f1fb;color:#0c447c}
+.prov{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px}
+.dots{display:flex;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--border-strong);cursor:pointer;border:none;padding:0}
+.dot.on{background:var(--text-primary)}
+.nav{display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap}
+.btn{font-family:inherit;font-size:13px;padding:8px 14px;border-radius:var(--radius);border:1px solid var(--border-strong);background:transparent;color:var(--text-primary);cursor:pointer}
+.btn:hover{background:var(--surface-1)}
+.note{margin-top:26px;padding-top:18px;border-top:1px solid var(--border);font-size:13px;color:var(--text-secondary)}
+.note ul{padding-left:18px;margin:8px 0 0}
+.note li{margin-bottom:6px}
+.scr{display:none}
+.scr.on{display:block}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Booking a ride without leaving Maps</h1>
+<p class="sub">Clickable prototype &middot; newly arrived travellers &middot; ideation, not a spec</p>
+
+<div class="bar">
+  <div><span class="stitle" id="stitle">1. Arrival detected in a new country</span> <span class="lbl" id="scount">1 / 8</span></div>
+  <div class="dots" id="dots"></div>
+</div>
+
+<div class="stage">
+<div class="phone">
+
+<div class="scr on" data-i="0">
+<div class="map"><div class="rd" style="left:0;right:0;top:150px;height:7px"></div><div class="rd" style="left:80px;top:0;bottom:0;width:7px"></div><div class="rd" style="left:0;right:0;top:300px;height:5px"></div></div>
+<div style="position:absolute;top:14px;left:14px;right:14px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 10px;font-size:13px;color:var(--text-secondary)"><i class="ti ti-search" style="font-size:15px;vertical-align:-2px;margin-right:6px"></i>wat arun temple</div>
+<div style="position:absolute;top:58px;left:14px"><span class="chip">new city &middot; signals: country change, airport</span></div>
+<div class="sheet">
+<div style="font-size:15px;font-weight:500;margin-bottom:2px">Wat Arun Ratchawararam</div>
+<div class="lbl" style="margin-bottom:10px">Buddhist temple &middot; Bangkok Yai &middot; 8.4 km away</div>
+<div style="background:var(--surface-1);border-radius:var(--radius);padding:10px 12px;font-size:13px;line-height:1.6;margin-bottom:12px"><i class="ti ti-sparkles" style="font-size:14px;vertical-align:-2px;margin-right:6px;color:var(--text-accent)"></i>Riverside temple known for its porcelain-covered spire. Quietest before 9am. Reached from your side of the river by ferry or road.</div>
+<button class="cta" data-go="1">Book a ride here</button>
+<div class="lbl" style="text-align:center;margin-top:8px;font-size:11px">Entry point appended to the AI answer</div>
+</div>
+</div>
+
+<div class="scr" data-i="1">
+<div class="map"><div class="rd" style="left:0;right:0;top:120px;height:7px"></div><div class="rd" style="left:170px;top:0;bottom:0;width:7px"></div><div class="rd" style="left:20px;right:60px;top:230px;height:4px;background:#1d9e75"></div></div>
+<div class="sheet">
+<div style="font-size:15px;font-weight:500;margin-bottom:8px">Compare rides</div>
+<div style="background:var(--surface-1);border-radius:var(--radius);padding:8px 10px;font-size:12px;margin-bottom:10px"><div style="color:var(--text-secondary)">From <span style="color:var(--text-primary)">Riverside Hotel (current)</span></div><div style="color:var(--text-secondary)">To <span style="color:var(--text-primary)">Wat Arun Ratchawararam</span></div></div>
+<div class="prov" style="border-top:1px solid var(--border)"><i class="ti ti-car" style="font-size:18px"></i><div style="flex:1"><div style="font-weight:500">Grab</div><div class="lbl" style="font-size:11px">2 min away &middot; 24 min trip</div></div><div style="text-align:right"><div style="font-weight:500">&#3647;185</div><span class="chip" style="font-size:10px">Fastest</span></div></div>
+<div class="prov"><i class="ti ti-car" style="font-size:18px"></i><div style="flex:1"><div style="font-weight:500">Bolt</div><div class="lbl" style="font-size:11px">6 min away &middot; 26 min trip</div></div><div style="text-align:right"><div style="font-weight:500">&#3647;162</div><span class="chip" style="font-size:10px;background:#eaf3de;color:#27500a">Cheapest</span></div></div>
+<div class="prov" style="border-bottom:none"><i class="ti ti-car" style="font-size:18px"></i><div style="flex:1"><div style="font-weight:500">inDrive</div><div class="lbl" style="font-size:11px">9 min away &middot; 25 min trip</div></div><div style="text-align:right;font-weight:500">&#3647;170</div></div>
+<button class="cta" data-go="2" style="margin-top:10px">Continue with Grab &middot; &#3647;185</button>
+</div>
+</div>
+
+<div class="scr" data-i="2">
+<div class="map"><div class="rd" style="left:0;right:0;top:120px;height:7px"></div><div class="rd" style="left:170px;top:0;bottom:0;width:7px"></div></div>
+<div class="sheet" style="top:60px;bottom:0">
+<div class="lbl" style="font-size:11px;margin-bottom:10px"><i class="ti ti-lock" style="font-size:13px;vertical-align:-2px;margin-right:4px"></i>grab.com &middot; in Maps</div>
+<div style="font-size:15px;font-weight:500;margin-bottom:2px">Create your account</div>
+<div class="lbl" style="margin-bottom:14px">Two fields, then a quick identity check</div>
+<div class="lbl" style="margin-bottom:4px">Mobile number</div>
+<div style="border:1px solid var(--border-strong);border-radius:var(--radius);padding:9px 10px;font-size:13px;margin-bottom:12px">+66 8 1234 5678</div>
+<div class="lbl" style="margin-bottom:4px">Name</div>
+<div style="border:1px solid var(--border-strong);border-radius:var(--radius);padding:9px 10px;font-size:13px;margin-bottom:14px">E. Chiah</div>
+<div style="background:#e1f5ee;border-radius:var(--radius);padding:10px 12px;font-size:12px;color:#04342c;line-height:1.55;margin-bottom:14px"><i class="ti ti-id" style="font-size:15px;vertical-align:-2px;margin-right:6px"></i>Identity check by Onfido &mdash; scan passport or licence. Required once, for rider and driver safety.</div>
+<button class="cta" data-go="3">Verify and continue</button>
+<div class="lbl" style="text-align:center;margin-top:8px;font-size:11px">No payment method requested yet</div>
+</div>
+</div>
+
+<div class="scr" data-i="3">
+<div class="map"><div class="rd" style="left:0;right:0;top:120px;height:7px"></div><div class="rd" style="left:170px;top:0;bottom:0;width:7px"></div><div class="rd" style="left:20px;right:60px;top:230px;height:4px;background:#1d9e75"></div></div>
+<div class="sheet">
+<div style="text-align:center;margin-bottom:12px"><i class="ti ti-circle-check" style="font-size:34px;color:#1d9e75"></i><div style="font-size:15px;font-weight:500;margin-top:6px">Ride confirmed</div><div class="lbl">Somchai P. &middot; Toyota Yaris &middot; 1&#3585;&#3585; 4567</div></div>
+<div style="background:var(--surface-1);border-radius:var(--radius);padding:10px 12px;font-size:12px;line-height:1.7;margin-bottom:12px"><div style="display:flex;justify-content:space-between"><span style="color:var(--text-secondary)">Pickup</span><span>2 min</span></div><div style="display:flex;justify-content:space-between"><span style="color:var(--text-secondary)">Fare</span><span>&#3647;185</span></div><div style="display:flex;justify-content:space-between"><span style="color:var(--text-secondary)">Booked with</span><span>One tap</span></div></div>
+<button class="cta" data-go="4">See driver</button>
+</div>
+</div>
+
+<div class="scr" data-i="4">
+<div class="map"><div class="rd" style="left:0;right:0;top:120px;height:7px"></div><div class="rd" style="left:170px;top:0;bottom:0;width:7px"></div></div>
+<div style="position:absolute;inset:0;background:rgba(0,0,0,.35)"></div>
+<div style="position:absolute;left:16px;right:16px;bottom:90px;background:var(--surface-2);border-radius:12px;padding:16px">
+<div style="font-size:15px;font-weight:500;margin-bottom:4px">Add a payment method</div>
+<div class="lbl" style="margin-bottom:14px;line-height:1.6">Your ride is already confirmed. Add a card now so Somchai can close the trip on arrival.</div>
+<div style="display:flex;gap:8px;margin-bottom:10px"><div style="flex:1;border:1px solid var(--border-strong);border-radius:var(--radius);padding:9px;text-align:center;font-size:12px"><i class="ti ti-credit-card" style="font-size:15px;vertical-align:-2px;margin-right:4px"></i>Card</div><div style="flex:1;border:1px solid var(--border-strong);border-radius:var(--radius);padding:9px;text-align:center;font-size:12px"><i class="ti ti-wallet" style="font-size:15px;vertical-align:-2px;margin-right:4px"></i>Wallet</div></div>
+<button class="cta" data-go="5">Add card</button>
+<div class="lbl" style="text-align:center;margin-top:8px;font-size:11px">Prompted after intent is locked, not before</div>
+</div>
+</div>
+
+<div class="scr" data-i="5">
+<div class="map"><div class="rd" style="left:0;right:0;top:150px;height:7px"></div><div class="rd" style="left:90px;top:0;bottom:0;width:7px"></div><div class="rd" style="left:20px;right:40px;top:260px;height:4px;background:#1d9e75"></div></div>
+<div style="position:absolute;top:120px;left:76px;width:36px;height:36px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center"><i class="ti ti-car" style="font-size:19px"></i></div>
+<div style="position:absolute;top:14px;left:14px;right:14px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 10px;font-size:13px;color:var(--text-secondary)"><i class="ti ti-search" style="font-size:15px;vertical-align:-2px;margin-right:6px"></i>Search Maps</div>
+<div style="position:absolute;left:14px;right:14px;bottom:100px;background:var(--surface-2);border:1px solid var(--border-strong);border-radius:12px;padding:12px 14px">
+<div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:50%;background:var(--bg-accent);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:var(--text-accent)">SP</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Somchai arriving &middot; 2 min</div><div class="lbl" style="font-size:11px">Toyota Yaris &middot; 1&#3585;&#3585; 4567</div></div><i class="ti ti-phone" style="font-size:18px;color:var(--text-secondary)"></i></div>
+</div>
+<div style="position:absolute;left:14px;right:14px;bottom:22px"><button class="cta" data-go="6">Arrive at Wat Arun</button><div class="lbl" style="text-align:center;margin-top:6px;font-size:11px">Tracker hovers; the map stays the active surface</div></div>
+</div>
+
+<div class="scr" data-i="6">
+<div class="map"><div class="rd" style="left:0;right:0;top:110px;height:7px"></div><div class="rd" style="left:120px;top:0;bottom:0;width:7px"></div></div>
+<div class="sheet" style="top:70px;bottom:0">
+<div style="background:var(--surface-1);border-radius:var(--radius);padding:10px 12px;font-size:13px;line-height:1.6;margin-bottom:12px"><i class="ti ti-sparkles" style="font-size:14px;vertical-align:-2px;margin-right:6px;color:var(--text-accent)"></i>You're at Wat Arun. Best things to do within 10 minutes:</div>
+<div style="border-bottom:1px solid var(--border);padding:9px 0;display:flex;gap:10px"><i class="ti ti-tools-kitchen-2" style="font-size:18px;color:var(--text-secondary)"></i><div style="flex:1;font-size:13px"><div style="font-weight:500">Eat Sight Story <span class="chip" style="font-size:10px;background:#faeeda;color:#412402">Sponsored</span></div><div class="lbl" style="font-size:11px">Riverside Thai &middot; 4.5 &middot; 4 min walk</div></div></div>
+<div style="border-bottom:1px solid var(--border);padding:9px 0;display:flex;gap:10px"><i class="ti ti-ticket" style="font-size:18px;color:var(--text-secondary)"></i><div style="flex:1;font-size:13px"><div style="font-weight:500">Sunset longtail cruise <span class="chip" style="font-size:10px;background:#faeeda;color:#412402">Sponsored</span></div><div class="lbl" style="font-size:11px">&#3647;450 &middot; book for today 6pm</div></div></div>
+<div style="border-bottom:1px solid var(--border);padding:9px 0;display:flex;gap:10px"><i class="ti ti-building-arch" style="font-size:18px;color:var(--text-secondary)"></i><div style="flex:1;font-size:13px"><div style="font-weight:500">Wat Pho</div><div class="lbl" style="font-size:11px">Temple &middot; 4.7 &middot; ferry then 5 min</div></div></div>
+<div style="padding:9px 0;display:flex;gap:10px"><i class="ti ti-shirt" style="font-size:18px;color:var(--text-secondary)"></i><div style="flex:1;font-size:13px"><div style="font-weight:500">Tha Tien market</div><div class="lbl" style="font-size:11px">Shopping &middot; 3 min walk</div></div></div>
+<button class="cta" data-go="7" style="margin-top:8px">Ride back later</button>
+</div>
+</div>
+
+<div class="scr" data-i="7">
+<div class="map"></div>
+<div style="position:absolute;inset:0;padding:20px 18px">
+<div style="font-size:15px;font-weight:500;margin-bottom:4px">What Maps billed this session</div>
+<div class="lbl" style="margin-bottom:14px">One detected tourist, one destination search</div>
+<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:4px 14px">
+<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px"><span>Verified account referral</span><span style="color:#0f6e56"><i class="ti ti-check" style="font-size:14px;vertical-align:-2px"></i> fired</span></div>
+<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px"><span>Booking conversion</span><span style="color:#0f6e56"><i class="ti ti-check" style="font-size:14px;vertical-align:-2px"></i> fired</span></div>
+<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px"><span>Provider placement</span><span style="color:#0f6e56"><i class="ti ti-check" style="font-size:14px;vertical-align:-2px"></i> fired</span></div>
+<div style="display:flex;justify-content:space-between;padding:10px 0;font-size:13px"><span>Discovery CTR &times; 2</span><span style="color:#0f6e56"><i class="ti ti-check" style="font-size:14px;vertical-align:-2px"></i> fired</span></div>
+</div>
+<div style="background:#eeedfe;border-radius:var(--radius);padding:12px;margin-top:14px;font-size:12px;line-height:1.6;color:#26215c">Four billable events from one search. The ride is the trigger; the discovery feed is the compounding layer.</div>
+<button class="cta ghost" data-go="0" style="margin-top:16px">Restart flow</button>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="nav">
+<button class="btn" id="prev"><i class="ti ti-arrow-left" style="font-size:14px;vertical-align:-2px;margin-right:4px"></i>Back</button>
+<button class="btn" id="next">Next<i class="ti ti-arrow-right" style="font-size:14px;vertical-align:-2px;margin-left:4px"></i></button>
+<span class="lbl" style="margin-left:4px">or use the arrow keys</span>
+</div>
+
+<div class="note">
+<p style="margin:0">Open questions this flow raises &mdash; deliberately unresolved at this stage:</p>
+<ul>
+<li>Screen 3 puts the heaviest friction in the flow (identity verification) before the booking, while screen 5 defers the lightest (payment) until after. Should verification move after the booking too?</li>
+<li>Screen 2 shows a neutral fare comparison that labels the cheapest option. Valuable to the traveller, uncomfortable for the partners paying to appear on it.</li>
+<li>Screen 5 is the highest-attention moment of the session &mdash; two minutes of waiting on a live map. The discovery upsell may belong here rather than on screen 7.</li>
+</ul>
+<p style="margin-top:14px;font-size:12px;color:var(--text-muted)">Concept prototype for discussion. Not affiliated with Google, Grab, Bolt or inDrive; brand names are placeholders illustrating a multi-provider surface. No real booking or payment functionality.</p>
+</div>
+
+</div>
+
+<script>
+(function(){
+var titles=["1. Arrival detected in a new country","2. Multi-provider comparison","3. Quick sign-up with identity check","4. One-tap booking confirmed","5. Payment requested after booking","6. Hovering driver tracker","7. Post-arrival discovery upsell","8. Billable events fired"];
+var scr=[].slice.call(document.querySelectorAll('.scr')),i=0,dots=document.getElementById('dots');
+scr.forEach(function(s,n){var b=document.createElement('button');b.className='dot';b.setAttribute('aria-label','Screen '+(n+1));b.onclick=function(){go(n)};dots.appendChild(b)});
+function go(n){
+  i=Math.max(0,Math.min(scr.length-1,n));
+  scr.forEach(function(s,k){s.className=k===i?'scr on':'scr'});
+  document.getElementById('stitle').textContent=titles[i];
+  document.getElementById('scount').textContent=(i+1)+' / '+scr.length;
+  [].slice.call(dots.children).forEach(function(d,k){d.className=k===i?'dot on':'dot'});
+  if(history.replaceState)history.replaceState(null,'','#s'+(i+1));
+}
+document.querySelectorAll('[data-go]').forEach(function(b){b.onclick=function(){go(parseInt(b.getAttribute('data-go'),10))}});
+document.getElementById('next').onclick=function(){go(i+1)};
+document.getElementById('prev').onclick=function(){go(i-1)};
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight')go(i+1);if(e.key==='ArrowLeft')go(i-1)});
+var m=(location.hash||'').match(/^#s(\d+)$/);
+go(m?parseInt(m[1],10)-1:0);
+})();
+</script>
+</body>
+</html>
